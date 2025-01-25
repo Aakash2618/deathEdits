@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Routes
 app.get("/",(req,res)=>{
-  res.json("server running successfully..")
+  res.json("server running successfully...")
 })
 
 app.use('/api/auth', authRoutes);
