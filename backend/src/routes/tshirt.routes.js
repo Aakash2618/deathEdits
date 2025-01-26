@@ -7,12 +7,7 @@ const {uploadOnCloudinary}=require("../utils/cloudinary")
 
 // Get all t-shirts
 router.get('/', async (req, res) => {
-  try {
-    const tshirts = await Tshirt.find();
-    res.json(tshirts);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+res.json("the products are here...")
 });
 
 // Get single t-shirt
