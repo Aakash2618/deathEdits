@@ -36,7 +36,7 @@ export default function Navbar({ cartItemCount,isMobileMenuOpen, setIsMobileMenu
                       <Menu className="w-6 h-6 text-gray-600" />
                     )}
                   </button>
-            <h1 className="text-2xl font-bold text-gray-800 ml-2">ThreadCraft</h1>
+            <h1 className="text-2xl font-bold text-gray-800 ml-2">DeathEdits</h1>
           </div>
           <div className="hidden sm:flex space-x-8">
             <Link to="/" className="text-gray-600 hover:text-gray-900">New Arrivals</Link>
