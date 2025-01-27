@@ -15,6 +15,7 @@ import { ShoppingCart, X } from 'lucide-react';
 import { useCart } from './store/useCart';
 import { useAuth } from './store/useAuth';
 import AccountPage from './pages/AccountPage';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const setProducts=productStore(state=>state.setProducts)
@@ -39,6 +40,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop/>
       <div className="min-h-screen flex flex-col">
         <Navbar cartItemCount={items.length} isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
         <main className="flex-grow">

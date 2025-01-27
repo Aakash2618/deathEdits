@@ -5,10 +5,11 @@ interface Image{
 }
 
 interface ProductImagesProps {
-  images: Image[];
+  images: string[];
+  alt : string
 }
 
-const ProductImages = ({ images }: ProductImagesProps) => {
+const ProductImages = ({ images,alt }: ProductImagesProps) => {
   const [mainImage, setMainImage] = useState<Image>(images[0]);
 
   return (
@@ -16,7 +17,7 @@ const ProductImages = ({ images }: ProductImagesProps) => {
       <div className="aspect-square w-full overflow-hidden rounded-lg">
         <img
           src={`${mainImage}`}
-          alt="kdjf"
+          alt={alt}
           className="h-full w-full  md:h-[90%] md:w-[90%] object-cover object-center mx-auto md:mx-0"
         />
       </div>

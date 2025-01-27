@@ -16,7 +16,7 @@ export default function Cart() {
   const [qty,setQty]=useState(1)
   let {items,removeItem,updateQuantity} = useCart()
   let {token} = useAuth()
-  console.log(items)
+  // console.log(items)
 
   if (items.length === 0 || null) {
     return (
@@ -39,7 +39,7 @@ export default function Cart() {
             return;
           } else {
             return(
-              <div key={2} className="flex items-center gap-4 py-4 border-b">
+              <div key={item._id} className="flex items-center gap-4 py-4 border-b">
             <img
               src={item.tshirt.imageUrl[0]}
               alt={"dfdsfkdlf"}
@@ -65,14 +65,14 @@ export default function Cart() {
                 {/* <button>-</button> */}
                 <button type="button" id="decrement-button" onClick={(e)=>setQty(qty-1)} className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100">
                     <svg className="h-2.5 w-2.5 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" />
                     </svg>
                   </button>
                   {/* <input value={item.quantity}/> */}
-                  <input type="text" id="counter-input" className="w-4 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0" placeholder="" value={qty} required />
+                  <input type="text" id="counter-input" className="w-4 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0" readOnly placeholder="" value={qty} required />
                 <button type="button" id="increment-button" onClick={()=>setQty(qty+1)} className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100">
                     <svg className="h-2.5 w-2.5 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
                     </svg>
                   </button>
               </div>

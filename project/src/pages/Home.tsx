@@ -11,7 +11,7 @@ import productStore from '../store/useProduct';
 
 export default function Home() {
   const categories:string[]=["Our Products", "Best Sellers","Best Hoddies","Printed T-shirt"]
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const products=productStore(state=>state.products)
   // useEffect(() => {
   //   const fetchProducts = async () => {
@@ -27,6 +27,9 @@ export default function Home() {
   //   };
   //   fetchProducts();
   // },[]);
+  setTimeout(() => {
+    setLoading(false)
+  }, 1000);
 
   if (loading) {
     return (
@@ -36,15 +39,6 @@ export default function Home() {
     );
   }
 
-  const removeFromCart = (id: string) => {
-    // setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
-  const updateQuantity = (id: string, quantity: number) => {
-    // setCartItems((prev) =>
-    //   prev.map((item) => (item.id === id ? { ...item, quantity } : item))
-    // );
-  };
-
   return (
     <main className=" max-w-7xl bg-grey-100 mx-auto px-4 py-8">
     <div className="flex gap-8">
@@ -53,15 +47,6 @@ export default function Home() {
           return <Categories key={index} title={item} products={products}/>
         })}
       </div>
-      {/* {onCartClick && (
-      <div className="w-96">
-        <Cart
-          items={products}
-          onRemoveFromCart={removeFromCart}
-          onUpdateQuantity={updateQuantity}
-        />
-      </div>
-      )} */}
     </div>
     </main>
   );

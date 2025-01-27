@@ -70,7 +70,7 @@ export default function Navbar({ cartItemCount,isMobileMenuOpen, setIsMobileMenu
                     Account
                   </button>
                   <button
-                    onClick={() => {signOut(); navigate("/")}}
+                    onClick={() => {signOut(); navigate("/");window.location.reload()}}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                   >
                     Sign out

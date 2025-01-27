@@ -8,18 +8,12 @@ export default function LoginForm() {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const {signIn,user,signOut,loading,token}=useAuth()
-
-  // useEffect(() => {
-  //   console.log(user)
-  //   console.log(token)
-  //   console.log(localStorage.getItem("user"))
-  // }, [user]);
   
   const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
     await signOut();
     const res=await signIn(credentials.email,credentials.password)
-    if (loading) {
+    if (!res) {
       return (
         <div className="flex items-center justify-center min-h-screen">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
