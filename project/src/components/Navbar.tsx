@@ -5,6 +5,8 @@ import { User } from "lucide-react"
 import { useCart } from '../store/useCart';
 import { useAuth } from '../store/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { AccountLayout } from './account/AccountLayout';
+import { useLocation } from 'react-router-dom';
 
 interface NavbarProps {
   cartItemCount: number;
@@ -13,20 +15,21 @@ interface NavbarProps {
 }
 
 export default function Navbar({ cartItemCount,isMobileMenuOpen, setIsMobileMenuOpen }: NavbarProps) {
+  const [activeTab, setActiveTab] = useState('profile');
   const navigate=useNavigate()
   const onCartClick = useCart(state => state.onCartClick)
   const [isOpenNav,setIsOpenNav]=useState(false)
   const {user, signOut}=useAuth();
+  const loaction = useLocation()
+  console.log(location.pathname)
   
-  // const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  // const [isCartOpen, setIsCartOpen] = useState(false);
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
             {/* <Menu onClick={()=>setIsOpenNav(!isOpenNav)} className="h-6 w-6 text-gray-600 sm:hidden" /> */}
-            <button
+            {'/account'==location.pathname && <button
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     className="lg:hidden fixe top-4 left-4 z-50 p-2 mt-2 rounded-md bg-white"
                   >
@@ -35,7 +38,7 @@ export default function Navbar({ cartItemCount,isMobileMenuOpen, setIsMobileMenu
                     ) : (
                       <Menu className="w-6 h-6 text-gray-600" />
                     )}
-                  </button>
+                  </button>}
             <h1 className="text-2xl font-bold text-gray-800 ml-2">DeathEdits</h1>
           </div>
           <div className="hidden sm:flex space-x-8">
@@ -86,7 +89,7 @@ export default function Navbar({ cartItemCount,isMobileMenuOpen, setIsMobileMenu
               onClick={onCartClick}
               className="relative p-2 text-gray-600 hover:text-gray-900"
             >
-              <CartIcon size={24} />
+              {user && <CartIcon size={24} />}
               {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {cartItemCount}
@@ -98,7 +101,7 @@ export default function Navbar({ cartItemCount,isMobileMenuOpen, setIsMobileMenu
 
         </div>
       </div>
-      {isOpenNav && (
+      {/* {true && (
               <div className="sm:hidden">
                 <div className="pt-2 pb-3 space-y-1 transform transition-transform duration-500 ease-in-out transition-y-full">
                   <Link
@@ -143,7 +146,42 @@ export default function Navbar({ cartItemCount,isMobileMenuOpen, setIsMobileMenu
                   )}
                 </div>
               </div>
-            )}
+            )} */}
+       {/* <div
+        className={`fixed top-0 left-0 h-full bg-white w-64 shadow-lg z-40 transform transition-transform duration-300 ease-in-out
+          ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+          lg:translate-x-0 lg:static lg:z-0`}
+      >
+        <div className="p-6">
+          <h2 className="text-2xl font-bold text-gray-800 mb-8">My Account</h2>
+          <nav className="space-y-2">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabClick(tab.id)}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors
+                    ${activeTab === tab.id
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-600 hover:bg-gray-50'
+                    }`}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span className="font-medium">{tab.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+      </div> */}
+      {/* <AccountLayout 
+      activeTab={activeTab}
+      setActiveTab={setActiveTab}
+      isAdmin={"admin"}
+      isMobileMenuOpen={isMobileMenuOpen}
+      setIsMobileMenuOpen={setIsMobileMenuOpen}
+      /> */}
     </nav>
   );
 }

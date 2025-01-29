@@ -22,6 +22,20 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {user,token}=useAuth()
   const { isCart, items, onCartClick,initializeCart } = useCart((state) => state)
+
+  const isTokenExpired = (token) => {
+    const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode the token payload
+    return decodedToken.exp * 1000 < Date.now(); // Check if expired
+  };
+  
+  const localStorageToken:string | null = localStorage.getItem('token');
+  if (token && isTokenExpired(token)) {
+    // Token is expired, clear it and redirect to login
+    localStorage.removeItem('token');
+    localStorage.removeItem('user')
+    window.location.href = '/login'; // Redirect to login page
+  }
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {

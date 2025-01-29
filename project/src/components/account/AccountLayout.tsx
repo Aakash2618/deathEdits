@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Package, Settings, ShoppingBag, Users, LayoutDashboard, Menu, X } from 'lucide-react';
+import { User, Package, Settings, ShoppingBag, Users, LayoutDashboard, Menu, X, Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
@@ -21,10 +21,10 @@ export function AccountLayout({
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'orders', label: 'My Orders', icon: Package },
     { id: 'settings', label: 'Settings', icon: Settings },
+    { id: 'home', label: 'Home', icon: Home },
   ];
 
   const adminTabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'products', label: 'Products', icon: ShoppingBag },
     { id: 'allOrders', label: 'All Orders', icon: Package },
     { id: 'customers', label: 'Customers', icon: Users },
@@ -36,6 +36,7 @@ export function AccountLayout({
   const handleTabClick = (tabId: string) => {
     setActiveTab(tabId);
     setIsMobileMenuOpen(false);
+    if(tabId=="home")navigate("/")
   };
 
   return (

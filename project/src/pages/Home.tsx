@@ -30,6 +30,10 @@ export default function Home() {
   setTimeout(() => {
     setLoading(false)
   }, 1000);
+  // if(products){
+  //   setLoading(false)
+  // }
+  // setLoading(false)
 
   if (loading) {
     return (
