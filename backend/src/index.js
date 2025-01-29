@@ -19,7 +19,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin:"https://deathedits.vercel.app/",
+  origin:"https://deathedits.vercel.app",
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 app.use(express.json());
