@@ -19,14 +19,15 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin:"https://deathedits.vercel.app",
+  origin:"http://localhost:5173/",
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
+// app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect("mongodb+srv://akki:N4sLLwAHnHoGaUMV@cluster0.1p1szsx.mongodb.net/tshirt-store")
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
 

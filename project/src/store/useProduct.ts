@@ -11,6 +11,7 @@ type store={
     deleteProduct:(_id:string)=>void;
 }
 
+console.log(products)
 
 const productStore=create<store>((set)=>({
     products:[],

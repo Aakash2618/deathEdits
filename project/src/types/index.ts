@@ -24,7 +24,9 @@ export interface CartProduct{
 
 export interface CartItem extends CartProduct {
   user: string;
-  total:number;
+  color:string;
+  quantity:number;
+  size:string;
   _id:string;
 }
 

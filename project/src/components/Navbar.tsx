@@ -21,7 +21,7 @@ export default function Navbar({ cartItemCount,isMobileMenuOpen, setIsMobileMenu
   const [isOpenNav,setIsOpenNav]=useState(false)
   const {user, signOut}=useAuth();
   const loaction = useLocation()
-  console.log(location.pathname)
+  // console.log(location.pathname)
   
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">

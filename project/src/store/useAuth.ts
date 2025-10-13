@@ -11,7 +11,7 @@ interface AuthStore {
   signIn: (email: string, password: string) => Promise<boolean | undefined>;
   signUp: (email: string, password: string, first_name:string,last_name:string,phone:number,address:string) => Promise<boolean | undefined>;
   signOut: () => Promise<void>;
-  setUser: (user: User | null) => void;
+  // setUser: (user: User | null) => void;
 }
 
 export const useAuth = create<AuthStore>((set) => ({
@@ -28,8 +28,8 @@ export const useAuth = create<AuthStore>((set) => ({
       localStorage.setItem("user",JSON.stringify(response.data.user))
       set({ user: JSON.stringify(response.data.user), loading: false ,token:response.data.token});
       return response.data.user?true:false;
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
+    } catch (error:any) {
+      toast.error(error?.response?.data?.message || 'Login failed');
     }
   },
   signUp: async (email, password, first_name,last_name,phone,address) => {
@@ -49,7 +49,7 @@ export const useAuth = create<AuthStore>((set) => ({
   
       toast.success("Account created successfully!");
       return res.data.user ? true : false;
-    } catch (error) {
+    } catch (error:any) {
       // throw error;
       toast.error(error.response?.data?.message || 'Registration failed');
     }
@@ -59,5 +59,5 @@ export const useAuth = create<AuthStore>((set) => ({
     localStorage.removeItem("user");
     set({ user: null ,token:null});
   },
-  setUser: (user) => set({ user }),
+  // setUser: (user) => set({ user }),
 }));

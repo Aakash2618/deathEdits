@@ -16,6 +16,7 @@ import { useCart } from './store/useCart';
 import { useAuth } from './store/useAuth';
 import AccountPage from './pages/AccountPage';
 import ScrollToTop from './components/ScrollToTop';
+import CheckOutPage from './pages/CheckoutPage';
 
 function App() {
   const setProducts=productStore(state=>state.setProducts)
@@ -23,7 +24,7 @@ function App() {
   const {user,token}=useAuth()
   const { isCart, items, onCartClick,initializeCart } = useCart((state) => state)
 
-  const isTokenExpired = (token) => {
+  const isTokenExpired = (token:any) => {
     const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode the token payload
     return decodedToken.exp * 1000 < Date.now(); // Check if expired
   };
@@ -40,6 +41,7 @@ function App() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get<Product[]>(import.meta.env.VITE_API_URL+'/products');
+        console.log(response)
         setProducts(response.data);
         // setLoading(false);  // Stop loading
       } catch (err) {
@@ -85,6 +87,7 @@ function App() {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route path='/account' element={<AccountPage isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen}/>} />
+            <Route path='/checkout' element={<CheckOutPage/>} />
             {/* <Route
               path="/checkout"
               element={

@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 // import { supabase } from '../lib/supabase';
-import { Product } from '../types';
-import ProductCard from '../components/ProductCard';
-import Cart from './Cart';
-import { products as Products } from '../data/Product';
+// import { Product } from '../types';
+// import ProductCard from '../components/ProductCard';
+// import Cart from './Cart';
+// import { products as Products } from '../data/Product';
 import Categories from '../components/Categories';
-import axios from 'axios';
+// import axios from 'axios';
 import productStore from '../store/useProduct';
 
 

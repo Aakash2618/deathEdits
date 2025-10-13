@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useAuth } from '../../store/useAuth';
 import toast from 'react-hot-toast';
 import { useCart } from '../../store/useCart';
+import { useNavigate } from 'react-router-dom';
 
 interface ProductInfoProps {
   id:string;
@@ -14,6 +15,7 @@ interface ProductInfoProps {
 }
 
 const ProductInfo = ({ title, price, description, sizes, id }: ProductInfoProps) => {
+  const navigate=useNavigate();
   const {token} = useAuth()
   const [loading,setLoading]=useState(false)
   const [selectedSize, setSelectedSize] = React.useState('S');
@@ -25,7 +27,7 @@ const ProductInfo = ({ title, price, description, sizes, id }: ProductInfoProps)
     quantity:1,}
     const handleAddToCart = () => {
       setLoading(true);
-      addItem(data);
+      token?addItem(data):navigate('/login');
       setTimeout(() => {
         setLoading(false);
       }, 500);

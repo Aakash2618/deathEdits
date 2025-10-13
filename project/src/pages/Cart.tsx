@@ -3,6 +3,7 @@ import { X, ShoppingBag } from 'lucide-react';
 import { useCart } from '../store/useCart';
 import { useAuth } from '../store/useAuth';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 // interface CartProps {
@@ -12,7 +13,12 @@ import { useState } from 'react';
 // }
 
 export default function Cart() {
-  // const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const navigate=useNavigate()
+  const checkout=()=>{
+    const amount:Number=items.reduce((accum,item)=>{return accum+=item.tshirt.price * item.quantity},20);
+
+    navigate("/checkout",{state:{amount}})
+  }
   const [qty,setQty]=useState(1)
   let {items,removeItem,updateQuantity} = useCart()
   let {token} = useAuth()
@@ -69,7 +75,7 @@ export default function Cart() {
                     </svg>
                   </button>
                   {/* <input value={item.quantity}/> */}
-                  <input type="text" id="counter-input" className="w-4 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0" readOnly placeholder="" value={qty} required />
+                  <input type="text" id="counter-input" className="w-4 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0" readOnly placeholder="" value={item.quantity} required />
                 <button type="button" id="increment-button" onClick={()=>setQty(qty+1)} className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100">
                     <svg className="h-2.5 w-2.5 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
@@ -92,10 +98,9 @@ export default function Cart() {
       <div className="mt-6 border-t pt-4">
         <div className="flex justify-between text-lg font-semibold">
           <span>Total:</span>
-          {/* <span>${total.toFixed(2)}</span> */}
-          {}
+          <span>$ {items.reduce((accum,item)=>{return accum+=item.tshirt.price * item.quantity},20)}</span>
         </div>
-        <button className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+        <button className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700" onClick={()=>checkout()}>
           Checkout
         </button>
       </div>

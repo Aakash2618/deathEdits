@@ -9,6 +9,7 @@ interface myComponentProp{
 }
 
 export default function Categories({title,products}:myComponentProp) {
+    console.log(products)
     // const [cartItems, setCartItems] = useState<Product[]>(products);
     return (
         <>

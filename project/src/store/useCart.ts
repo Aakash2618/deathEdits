@@ -53,9 +53,9 @@ export const useCart = create<CartStore>((set, get) => ({
       })
       set({items:res.data.items})
       toast.success("Item added successfully..")
-    } catch (error) {
-      console.log(error)
-      toast.error(error.response.data.message)
+    } catch (error:any) {
+      // console.log(error)
+      toast.error(error?.response.data.message)
     }
     // set((state) => {
     //   const existingItem = state.items.find(
