@@ -18,7 +18,7 @@ const {uploadOnCloudinary} = require('./utils/cloudinary')
 
 const app = express();
 
-Middleware
+// Middleware
 app.use(cors({
   origin:"https://deathedits.vercel.app",
   methods: ['GET', 'POST', 'PUT', 'DELETE']
@@ -56,4 +56,4 @@ const PORT = process.env.PORT || 3000;
 // app.listen(PORT, () => {
 //   console.log(`Server running on port ${PORT}`);
 // });
-export default serverless(app);
+module.exports = serverless(app);
