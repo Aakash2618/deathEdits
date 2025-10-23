@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-import serverless from "serverless-http";
+const serverless=require("serverless-http");
 const mongoose = require('mongoose');
 const cors = require('cors');
 const multer=require("multer")
