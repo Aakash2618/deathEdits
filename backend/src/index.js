@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const serverless=require("serverless-http");
 const mongoose = require('mongoose');
 const cors = require('cors');
 const multer=require("multer")
@@ -48,12 +47,11 @@ app.use('/api/orders', orderRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err);
+  console.error(err.stack);
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
 const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
-module.exports = serverless(app);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
