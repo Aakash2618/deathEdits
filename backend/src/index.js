@@ -18,11 +18,11 @@ const {uploadOnCloudinary} = require('./utils/cloudinary')
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin:"https://death-edits.vercel.app",
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
-}));
-// app.use(cors())
+//app.use(cors({
+ // origin:"https://death-edits.vercel.app",
+ // methods: ['GET', 'POST', 'PUT', 'DELETE']
+//}));
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
