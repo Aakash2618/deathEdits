@@ -14,9 +14,9 @@ router.post('/register',
   async (req, res) => {
     try {
       const { email, password, first_name,last_name,phone,address } = req.body;
-      console.log(first_name,last_name,address,phone,password)
+      // console.log(first_name,last_name,address,phone,password)
       
-      const existingUser = await User.findOne({ email });
+      const existingUser = await User.findOne({ email }) || await User.findOne({phone});
       if (existingUser) {
         return res.status(400).json({ message: 'Email already exists' });
       }
@@ -26,11 +26,11 @@ router.post('/register',
 
       const token = jwt.sign(
         { userId: user._id },
-        process.env.JWT_SECRET || 'your-secret-key',
+        process.env.JWT_SECRET || 'akki_akki',
         { expiresIn: '24h' }
       );
 
-      res.status(201).json({ user, token });
+      res.status(201).json({ user, token ,message:"User Registered Successfully!"});
     } catch (error) {
       console.log(error)
       res.status(400).json({ message: error.message });
@@ -58,11 +58,11 @@ router.post('/login',
 
       const token = jwt.sign(
         { userId: user._id },
-        process.env.JWT_SECRET || 'your-secret-key',
+        process.env.JWT_SECRET || 'akki_akki',
         { expiresIn: '24h' }
       );
 
-      res.json({ user, token });
+      res.json({ user, token ,  });
     } catch (error) {
       res.status(400).json({ message: error.message });
     }

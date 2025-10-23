@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Order } from '../../types';
 import { Package, Truck, CheckCircle, Clock } from 'lucide-react';
+import axios from 'axios';
 
 interface Props {
   orders: Order[];
@@ -8,6 +9,8 @@ interface Props {
 }
 
 export function OrdersSection({ orders, showCustomer }: Props) {
+  const [ordersData,setOrdersData]=useState([])
+  const [loading, setLoading] = useState(true);
   const getStatusIcon = (status: Order['status']) => {
     switch (status) {
       case 'pending':
@@ -21,9 +24,45 @@ export function OrdersSection({ orders, showCustomer }: Props) {
     }
   };
 
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await axios.get(import.meta.env.VITE_API_URL+"/orders/",{
+          headers:{
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
+          }
+        });
+        console.log(res)
+        if (res.data) {
+          console.log(res.data)
+          setOrdersData(res.data);
+        }
+      } catch (err) {
+        console.log(err);
+        alert("Failed to fetch orders");
+      } finally {
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+  
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+
   return (
     <div className="space-y-6">
-      {orders.map((order) => (
+      {ordersData.map((order) => (
         <div key={order.id} className="bg-white rounded-lg shadow p-6">
           <div className="flex justify-between items-start mb-4">
             <div>
@@ -40,7 +79,7 @@ export function OrdersSection({ orders, showCustomer }: Props) {
             {order.items.map((item) => (
               <div key={item.id} className="py-4 flex justify-between">
                 <div>
-                  <p className="font-medium">{item.name}</p>
+                  <p className="font-medium">{item.tshirt.title}</p>
                   <p className="text-sm text-gray-500">Size: {item.size}</p>
                 </div>
                 <div className="text-right">

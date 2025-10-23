@@ -1,12 +1,80 @@
+import { useState } from 'react';
 import {useAuth} from '../store/useAuth'
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useCart } from '../store/useCart';
 
 export default function CheckOutPage() {
     const userData = useAuth().user
     const user = userData?JSON.parse(userData):null;
+    const [loading, setLoading] = useState(false);
+    const [errorr,setError]=useState(null)
     const location=useLocation()
     const amount=location.state.amount
     const navigate=useNavigate()
+    const {initializeCart}=useCart()
+
+    const handlePayment = async (event:any) => {
+    event.preventDefault();
+
+    setLoading(true);
+
+    try {
+      // Fetch order details from the backend
+      const response = await axios.post(import.meta.env.VITE_API_URL+'/orders',JSON.stringify({amount}), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem("token")
+        },
+      });
+
+
+      if (!response || !response.data.id) {
+        throw new Error('Failed to create order');
+      }
+
+      const options = {
+        key: "rzp_test_RWozigkMJ3eZDe",
+        amount: amount * 100, // Razorpay expects the amount in paise
+        currency: 'INR',
+        order_id: response.data.id,
+        name: 'T-Shirt Purchase',
+        description: 'Payment for T-Shirt',
+        handler: async function (response:any) {
+        //   alert('Payment Successful!');
+            const verifyRes = await axios.post(import.meta.env.VITE_API_URL+'/orders/verify', {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+            },{headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem("token")
+        },});
+          toast.success('Payment Success!')
+          initializeCart()
+          navigate('/')
+          // Handle the successful payment here, e.g., send payment details to the server
+        },
+        prefill: {
+          name: 'payment',
+          email: 'customer@example.com',
+          contact: '9999999999',
+        },
+        theme: {
+          color: '#F37254',
+        },
+      };
+
+      const rzp1 = new window.Razorpay(options);
+      rzp1.open();
+    } catch (error:any) {
+      setError(error.message);
+      toast.error(errorr)
+      setLoading(false);
+    }
+    setLoading(false)
+  };
   return (
     <div className="bg-white sm:px-8 px-4 py-6 mx-12 my-6">
           <div className="max-w-screen-xl max-md:max-w-xl mx-auto">
@@ -93,47 +161,6 @@ export default function CheckOutPage() {
                                   </div>
                               </div>
                           </div>
-
-                          <div className="mt-12">
-                              <h2 className="text-xl text-slate-900 font-semibold mb-6">Payment</h2>
-                              <div className="grid gap-4 lg:grid-cols-2">
-                                  <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
-                                      <div>
-                                          <div className="flex items-center">
-                                              <input type="radio" name="method" className="w-5 h-5 cursor-pointer" id="card" checked />
-                                              <label className="ml-4 flex gap-2 cursor-pointer">
-                                                  <img src="https://readymadeui.com/images/visa.webp" className="w-12" alt="card1" />
-                                                  <img src="https://readymadeui.com/images/american-express.webp" className="w-12" alt="card2" />
-                                                  <img src="https://readymadeui.com/images/master.webp" className="w-12" alt="card3" />
-                                              </label>
-                                          </div>
-                                      </div>
-                                      <p className="mt-4 text-sm text-slate-500 font-medium">Pay with your debit or credit card</p>
-                                  </div>
-                                  <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
-                                      <div>
-                                          <div className="flex items-center">
-                                              <input type="radio" name="method" className="w-5 h-5 cursor-pointer" id="paypal" />
-                                              <label  className="ml-4 flex gap-2 cursor-pointer">
-                                                  <img src="https://readymadeui.com/images/paypal.webp" className="w-20" alt="paypalCard" />
-                                              </label>
-                                          </div>
-                                      </div>
-                                      <p className="mt-4 text-sm text-slate-500 font-medium">Pay with your paypal account</p>
-                                  </div>
-                              </div>
-                          </div>
-
-                          <div className="mt-12 max-w-md">
-                              <p className="text-slate-900 text-sm font-medium mb-2">Do you have a promo code?</p>
-                              <div className="flex gap-4">
-                                  <input type="email" placeholder="Promo code"
-                                      className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600" />
-                                  <button type='button' className="flex items-center justify-center font-medium tracking-wide bg-blue-600 hover:bg-blue-700 px-4 py-2.5 rounded-md text-sm text-white cursor-pointer">
-                                      Apply
-                                  </button>
-                              </div>
-                          </div>
                       </form>
                   </div>
 
@@ -148,7 +175,7 @@ export default function CheckOutPage() {
                           <li className="flex flex-wrap gap-4 text-[15px] font-semibold text-slate-900">Total <span className="ml-auto">${amount+11}.00</span></li>
                       </ul>
                       <div className="space-y-4 mt-8">
-                          <button type="button" className="rounded-md px-4 py-2.5 w-full text-sm font-medium tracking-wide bg-blue-600 hover:bg-blue-700 text-white cursor-pointer">Complete Purchase</button>
+                          <button type="button" className="rounded-md px-4 py-2.5 w-full text-sm font-medium tracking-wide bg-blue-600 hover:bg-blue-700 text-white cursor-pointer" disabled={loading} onClick={handlePayment}>{loading ? 'Processing…' : 'Pay Now'}</button>
                           <button type="button" className="rounded-md px-4 py-2.5 w-full text-sm font-medium tracking-wide bg-gray-100 hover:bg-gray-200 border border-gray-300 text-slate-900 cursor-pointer" onClick={()=>{navigate("/")}}>Continue Shopping</button>
                       </div>
                   </div>
