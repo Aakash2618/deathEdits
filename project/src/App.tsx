@@ -16,7 +16,7 @@ import { useCart } from './store/useCart';
 import { useAuth } from './store/useAuth';
 import AccountPage from './pages/AccountPage';
 import ScrollToTop from './components/ScrollToTop';
-import CheckOutPage from './pages/CheckoutPage';
+import CheckOutPage from './pages/CheckOutPage';
 import Payment from './pages/Payment';
 
 function App() {
